@@ -2,8 +2,9 @@
 
 import typing
 
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 
 # ============================================================================
@@ -66,14 +67,161 @@ def parabolic_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
 # Add your own hypotheses if you want
 
 
-def plot_grad_descent():
+def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support):
     """plot_grad_descent: plotting the gradient descent iterations.
 
-    Write an extended summary
+    Generates the 
 
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss: loss function that we will be optimizing on
+    :type loss: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param dloss: the gradient of the loss function we are optimizing
+    :type dloss: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param grad_des: gradient descent blackbox optimizer
+    :param x_support: range of x values to plot
+    :type x_support: np.ndarray
+    :param y_support: range of y values to plot
+    :type y_support: np.ndarray
     :return: None
     :rtype: None
     """
+    
+    _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
+
+    fig, ax = plt.subplots()
+    ax.set_xlim([x_support[0], x_support[1]])
+    ax.set_ylim([y_support[0], y_support[1]])
+    ax.set_xlabel("x")
+    ax.set_ylabel("f(x)")
+    plt.title("Gradient Descent in 1D")
+    line, = ax.plot([], [])
+    scat = ax.scatter([], [], c="red")
+    text = ax.text(-25,450,"")
+
+    potential_theta = np.linspace(x_support[0], x_support[1], 0.01)
+    potential_loss = loss(h, potential_theta, x, y)
+
+    def animate(i):
+        global x_est
+        global y_est
+
+        # Gradient descent
+        theta = thetas[i]
+        loss_val = loss(h, theta, x, y)
+
+        # Update the plot
+        scat.set_offsets([[theta,loss_val]])
+        text.set_text("Loss Value : {.2f} \n Theta Value : {.2f}".format(loss_val, theta))
+        line.set_data(potential_theta, potential_loss)
+        return line, scat, text
+    
+    ani = animation.FuncAnimation(fig, animate, 40, 
+        init_func=init, interval=100, blit=True)
+    
+    plt.show()
+
+    return None
+
+
+def plot_grad_descent_2d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support):
+    """plot_grad_descent: plotting the gradient descent iterations.
+
+    Generates the 
+
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss: loss function that we will be optimizing on
+    :type loss: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param dloss: the gradient of the loss function we are optimizing
+    :type dloss: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param grad_des: gradient descent blackbox optimizer
+    :param x_support: range of x values to plot
+    :type x_support: np.ndarray
+    :param y_support: range of y values to plot
+    :type y_support: np.ndarray
+    :return: None
+    :rtype: None
+    """
+    
+    _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
+
+    fig, ax = plt.subplots()
+    ax.set_xlim([x_support[0], x_support[1]])
+    ax.set_ylim([y_support[0], y_support[1]])
+    ax.set_xlabel("x")
+    ax.set_ylabel("f(x)")
+    plt.title("Gradient Descent in 1D")
+    line, = ax.plot([], [])
+    scat = ax.scatter([], [], c="red")
+    text = ax.text(-25,450,"")
+
+    potential_theta = np.linspace(x_support[0], x_support[1], 0.01)
+    potential_loss = loss(h, potential_theta, x, y)
+
+    def animate(i):
+        global x_est
+        global y_est
+
+        # Gradient descent
+        theta = thetas[i]
+        loss_val = loss(h, theta, x, y)
+
+        # Update the plot
+        scat.set_offsets([[theta,loss_val]])
+        text.set_text("Loss Value : {.2f} \n Theta Value : {.2f}".format(loss_val, theta))
+        line.set_data(potential_theta, potential_loss)
+        return line, scat, text
+    
+    ani = animation.FuncAnimation(fig, animate, 40, 
+        init_func=init, interval=100, blit=True)
+    
+    plt.show()
+
     return None
 
 
@@ -230,7 +378,7 @@ def grad_descent(
     ],
     x: np.ndarray,
     y: np.ndarray,
-) -> np.ndarray:
+) -> tuple[np.ndarray, np.ndarray]:
     """grad_descent: gradient descent algorithm on a hypothesis class.
 
     :param h: hypothesis function that models our data (x) using theta
@@ -261,8 +409,8 @@ def grad_descent(
     :type x: np.ndarray
     :param y: The expected targets our model is attempting to match
     :param y: np.ndarray
-    :return: The ideal parameters
-    :rtype: np.ndarray
+    :return: The ideal parameters and the list of paramters through time
+    :rtype: tuple[np.ndarray, np.ndarray]
     """
     # TODO 1:
     return np.zeros((1,))
