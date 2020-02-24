@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+get_poetry.sh
+install_pyenv.sh
+poetry.lock
+pyproject.toml
+
 # C extensions
 *.so
 
