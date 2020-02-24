@@ -332,7 +332,7 @@ def l2_loss(
     :return: The l2 loss value
     :rtype: float
     """
-    return 1/(x.shape[0]) * np.sum(np.square((h(theta, x) - y)))
+    return np.sum(np.square((h(theta, x) - y)))
 
 
 def grad_l2_loss(
@@ -360,7 +360,7 @@ def grad_l2_loss(
     :return: The l2 loss value
     :rtype: float
     """
-    return 1/(x.shape[0]) * (np.sum((h(theta, x) - y) * grad_h(theta, x)))
+    return (np.sum((h(theta, x) - y) * grad_h(theta, x)))
 
 
 # ============================================================================
@@ -429,10 +429,6 @@ def grad_descent(
     :rtype: tuple[np.ndarray, np.ndarray]
     """
     # TODO 1:
-    alpha = 0.01
-    theta = np.random.normal(size=x.shape[-1])
-    for t in range(T):
-        theta -= alpha * (1/x.shape[0]) * (grad_l2_loss(h, grad_h, theta, x, y))
     return np.zeros((1,))
 
 
@@ -498,6 +494,12 @@ def simple_linear():
         x_support,
         y_support
     )
+
+
+def test_gd(grad_des_f):
+    
+    x = np.arange(-4, 5, 0.1) 
+
 
 if __name__ == "__main__":
     pass
