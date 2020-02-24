@@ -411,7 +411,7 @@ def matrix_minibatch_gd():
 # Sample tests that you can run to ensure the basics are working
 # ============================================================================
 
-def simple_linear():
+def save_linear_gif():
     """simple_linear: description."""
     x = np.arange(-3,4,0.1).reshape((-1,1))
     y = 2*np.arange(-3,4,0.1).reshape((-1,1))
