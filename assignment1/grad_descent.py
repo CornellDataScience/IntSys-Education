@@ -206,6 +206,7 @@ def grad_l2_loss(
 
 
 def grad_descent(
+    T: int,
     h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
     grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
     loss_f: typing.Callable[
@@ -265,6 +266,10 @@ def grad_descent(
     :rtype: np.ndarray
     """
     # TODO 1:
+    alpha = 0.01
+    theta = np.random.normal(size=x.shape[-1])
+    for t in range(T):
+        theta -= alpha * (1/x.shape[0]) * (grad_l2_loss(h, grad_h, theta, x, y))
     return np.zeros((1,))
 
 
