@@ -22,7 +22,7 @@ def linear_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
     :return: The predictions of our model on inputs X
     :rtype: np.ndarray
     """
-    return theta @ x
+    return (theta @ x.T).T
 
 
 def linear_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
@@ -48,7 +48,7 @@ def parabolic_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
     :return: The predictions of our model on inputs X
     :rtype: np.ndarray
     """
-    return theta @ (x ** 2)
+    return (theta @ (x ** 2).T).T
 
 
 def parabolic_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
@@ -108,7 +108,7 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
     :return: None
     :rtype: None
     """
-    
+    import sys
     _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
 
     fig, ax = plt.subplots()
@@ -119,34 +119,43 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
     plt.title("Gradient Descent in 1D")
     line, = ax.plot([], [])
     scat = ax.scatter([], [], c="red")
-    text = ax.text(-25,450,"")
+    text = ax.text(x_support[0], y_support[0], "")
 
-    potential_theta = np.linspace(x_support[0], x_support[1], 0.01)
-    potential_loss = loss(h, potential_theta, x, y)
+    potential_theta = np.linspace(x_support[0], x_support[1], 1000)#.reshape((-1,1))
+    potential_loss = [loss(h, grad_h, potential_theta[j].reshape((-1,1)), x, y) for j in range(1000)]
+    #print(potential_loss)
+    steps = 50
+
+    def init():
+        line.set_data([], [])
+        return line,
 
     def animate(i):
-        global x_est
-        global y_est
+        global theta
+        global loss_val
 
+        # sys.stdout.write("Iteration: {}\r".format(i))
+        # sys.stdout.flush()
         # Gradient descent
-        theta = thetas[i]
-        loss_val = loss(h, theta, x, y)
+        theta = thetas[(thetas.shape[0] // steps) * i]
+        loss_val = loss(h, grad_h, theta, x, y)
 
         # Update the plot
-        scat.set_offsets([[theta,loss_val]])
-        text.set_text("Loss Value : {.2f} \n Theta Value : {.2f}".format(loss_val, theta))
+        scat.set_offsets([[theta, loss_val]])
+        text.set_text("Loss Value : {:.2f} Theta Value : {:.2f}".format(loss_val, theta[0,0]))
         line.set_data(potential_theta, potential_loss)
         return line, scat, text
     
-    ani = animation.FuncAnimation(fig, animate, 40, 
-        init_func=init, interval=100, blit=True)
+    ani = animation.FuncAnimation(fig, animate, steps, 
+        init_func=init, interval=500, blit=True)
     
-    plt.show()
+    ani.save("gradDes_anim.gif", writer='imagemagick', fps=30)
+    # plt.show()
 
     return None
 
 
-def plot_grad_descent_2d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support):
+def plot_linear_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support):
     """plot_grad_descent: plotting the gradient descent iterations.
 
     Generates the 
@@ -187,7 +196,7 @@ def plot_grad_descent_2d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
     :return: None
     :rtype: None
     """
-    
+    import sys
     _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
 
     fig, ax = plt.subplots()
@@ -197,30 +206,36 @@ def plot_grad_descent_2d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
     ax.set_ylabel("f(x)")
     plt.title("Gradient Descent in 1D")
     line, = ax.plot([], [])
-    scat = ax.scatter([], [], c="red")
-    text = ax.text(-25,450,"")
+    scat = ax.scatter(x.reshape((-1,)), y.reshape((-1,)), c="red")
+    text = ax.text(x_support[0], y_support[0], "")
+    steps = 50
 
-    potential_theta = np.linspace(x_support[0], x_support[1], 0.01)
-    potential_loss = loss(h, potential_theta, x, y)
+    def init():
+        line.set_data([], [])
+        return line,
 
     def animate(i):
-        global x_est
-        global y_est
-
+        global theta
+        global preds
+        # sys.stdout.write("Iteration: {}\r".format(i))
+        # sys.stdout.flush()
         # Gradient descent
-        theta = thetas[i]
-        loss_val = loss(h, theta, x, y)
+        theta = thetas[(thetas.shape[0] // steps) * i]
+        x_range = np.arange(x_support[0], x_support[1], 0.01)
+        preds = h(theta, x_range.reshape((-1,1)))
+        #loss_val = loss(h, grad_h, theta, x, y)
 
         # Update the plot
-        scat.set_offsets([[theta,loss_val]])
-        text.set_text("Loss Value : {.2f} \n Theta Value : {.2f}".format(loss_val, theta))
-        line.set_data(potential_theta, potential_loss)
+        #scat.set_offsets([[theta, loss_val]])
+        text.set_text("Theta Value : {:.2f}".format(theta[0,0]))
+        line.set_data(x_range, preds.reshape((-1,)))
         return line, scat, text
     
-    ani = animation.FuncAnimation(fig, animate, 40, 
-        init_func=init, interval=100, blit=True)
+    ani = animation.FuncAnimation(fig, animate, steps, 
+        init_func=init, interval=500, blit=True)
     
-    plt.show()
+    ani.save("linear_anim.gif", writer='imagemagick', fps=30)
+    # plt.show()
 
     return None
 
@@ -317,7 +332,7 @@ def l2_loss(
     :return: The l2 loss value
     :rtype: float
     """
-    return np.sum(np.square((h(theta, x) - y)))
+    return 1/(x.shape[0]) * np.sum(np.square((h(theta, x) - y)))
 
 
 def grad_l2_loss(
@@ -345,7 +360,7 @@ def grad_l2_loss(
     :return: The l2 loss value
     :rtype: float
     """
-    return np.sum(2 * (h(theta, x) - y) * grad_h(theta, x))
+    return 1/(x.shape[0]) * (np.sum((h(theta, x) - y) * grad_h(theta, x)))
 
 
 # ============================================================================
@@ -378,7 +393,7 @@ def grad_descent(
     ],
     x: np.ndarray,
     y: np.ndarray,
-) -> tuple[np.ndarray, np.ndarray]:
+) -> typing.Tuple[np.ndarray, np.ndarray]:
     """grad_descent: gradient descent algorithm on a hypothesis class.
 
     :param h: hypothesis function that models our data (x) using theta
@@ -446,6 +461,38 @@ def matrix_minibatch_gd():
     return np.zeros((1,))
 
 
-if __name__ == "__main__":
+# ============================================================================
+# Sample tests that you can run to ensure the basics are working
+# ============================================================================
 
+def simple_linear():
+    """simple_linear: description."""
+    x = np.arange(-3,4,0.1).reshape((-1,1))
+    y = 2*np.arange(-3,4,0.1).reshape((-1,1))
+    x_support = np.array((-3,7))
+    y_support = np.array((-1,12.5))
+    plot_linear_1d(
+        linear_h,
+        linear_grad_h,
+        l2_loss,
+        grad_l2_loss,
+        x,
+        y,
+        grad_descent,
+        x_support,
+        y_support
+    )
+    plot_grad_descent_1d(
+        linear_h,
+        linear_grad_h,
+        l2_loss,
+        grad_l2_loss,
+        x,
+        y,
+        grad_descent,
+        x_support,
+        y_support
+    )
+
+if __name__ == "__main__":
     pass
