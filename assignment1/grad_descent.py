@@ -12,7 +12,7 @@ import matplotlib.animation as animation
 # ============================================================================
 
 
-def linear_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
+def linear_h(theta, x):
     """linear_h: The linear hypothesis regressor.
 
     :param theta: parameters for our linear regressor
@@ -25,7 +25,7 @@ def linear_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
     return (theta @ x.T).T
 
 
-def linear_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
+def linear_grad_h(theta, x):
     """linear_h: The gradient of the linear hypothesis regressor.
 
     :param theta: parameters for our linear regressor
@@ -38,7 +38,7 @@ def linear_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
     return x
 
 
-def parabolic_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
+def parabolic_h(theta, x):
     """parabolic_h: The parabolic hypothesis regressor.
 
     :param theta: parameters for our parabolic regressor
@@ -51,7 +51,7 @@ def parabolic_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
     return (theta @ (x ** 2).T).T
 
 
-def parabolic_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
+def parabolic_grad_h(theta, x):
     """parabolic_grad_h: The gradient of the parabolic hypothesis regressor.
 
     :param theta: parameters for our parabolic regressor
@@ -67,7 +67,8 @@ def parabolic_grad_h(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
 # Add your own hypotheses if you want
 
 
-def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support):
+def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des,
+    x_support, y_support):
     """plot_grad_descent: plotting the gradient descent iterations.
 
     Generates the 
@@ -108,7 +109,6 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
     :return: None
     :rtype: None
     """
-    import sys
     _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
 
     fig, ax = plt.subplots()
@@ -123,7 +123,6 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
 
     potential_theta = np.linspace(x_support[0], x_support[1], 1000)#.reshape((-1,1))
     potential_loss = [loss(h, grad_h, potential_theta[j].reshape((-1,1)), x, y) for j in range(1000)]
-    #print(potential_loss)
     steps = 50
 
     def init():
@@ -133,9 +132,6 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
     def animate(i):
         global theta
         global loss_val
-
-        # sys.stdout.write("Iteration: {}\r".format(i))
-        # sys.stdout.flush()
         # Gradient descent
         theta = thetas[(thetas.shape[0] // steps) * i]
         loss_val = loss(h, grad_h, theta, x, y)
@@ -150,7 +146,6 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_su
         init_func=init, interval=500, blit=True)
     
     ani.save("gradDes_anim.gif", writer='imagemagick', fps=30)
-    # plt.show()
 
     return None
 
@@ -217,16 +212,12 @@ def plot_linear_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support)
     def animate(i):
         global theta
         global preds
-        # sys.stdout.write("Iteration: {}\r".format(i))
-        # sys.stdout.flush()
         # Gradient descent
         theta = thetas[(thetas.shape[0] // steps) * i]
         x_range = np.arange(x_support[0], x_support[1], 0.01)
         preds = h(theta, x_range.reshape((-1,1)))
-        #loss_val = loss(h, grad_h, theta, x, y)
 
         # Update the plot
-        #scat.set_offsets([[theta, loss_val]])
         text.set_text("Theta Value : {:.2f}".format(theta[0,0]))
         line.set_data(x_range, preds.reshape((-1,)))
         return line, scat, text
@@ -235,17 +226,11 @@ def plot_linear_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support)
         init_func=init, interval=500, blit=True)
     
     ani.save("linear_anim.gif", writer='imagemagick', fps=30)
-    # plt.show()
 
     return None
 
 
-def loss_f1(
-    h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    theta: np.ndarray,
-    x: np.ndarray,
-    y: np.ndarray,
-) -> np.ndarray:
+def loss_f1(h, theta, x, y):
     """loss_f1 returns the loss for special function f1.
 
     This function is for demonstration purposes, since it ignores
@@ -273,13 +258,7 @@ def loss_f1(
     )
 
 
-def grad_loss_f1(
-    h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    theta: np.ndarray,
-    x: np.ndarray,
-    y: np.ndarray,
-) -> np.ndarray:
+def grad_loss_f1(h, grad_h, theta, x, y):
     """grad_loss_f1 returns the gradients for the loss of the f1 function.
 
     This function is for demonstration purposes, since it ignores
@@ -311,9 +290,7 @@ def l2_loss(
     h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
     grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
     theta: np.ndarray,
-    x: np.ndarray,
-    y: np.ndarray,
-) -> np.ndarray:
+    x, y):
     """l2_loss: standard l2 loss.
 
     The l2 loss is defined as (h(x) - y)^2. This is usually used for linear
@@ -335,13 +312,7 @@ def l2_loss(
     return np.sum(np.square((h(theta, x) - y)))
 
 
-def grad_l2_loss(
-    h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    theta: np.ndarray,
-    x: np.ndarray,
-    y: np.ndarray,
-) -> np.ndarray:
+def grad_l2_loss(h, grad_h, theta, x, y):
     """grad_l2_loss: The gradient of the standard l2 loss.
 
     The gradient of l2 loss is given by d/dx[(h(x) - y)^2] which is
@@ -368,34 +339,11 @@ def grad_l2_loss(
 # ============================================================================
 
 
-def grad_descent(
-    T: int,
-    h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-    loss_f: typing.Callable[
-        [
-            typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-            typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-            np.ndarray,
-            np.ndarray,
-            np.ndarray,
-        ],
-        np.ndarray,
-    ],
-    grad_loss_f: typing.Callable[
-        [
-            typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-            typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
-            np.ndarray,
-            np.ndarray,
-            np.ndarray,
-        ],
-        np.ndarray,
-    ],
-    x: np.ndarray,
-    y: np.ndarray,
-) -> typing.Tuple[np.ndarray, np.ndarray]:
+def grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
     """grad_descent: gradient descent algorithm on a hypothesis class.
+
+    This does not use the matrix operations from numpy, this function
+    uses the brute force calculations
 
     :param h: hypothesis function that models our data (x) using theta
     :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
@@ -425,40 +373,241 @@ def grad_descent(
     :type x: np.ndarray
     :param y: The expected targets our model is attempting to match
     :param y: np.ndarray
+    :param steps: number of steps to take in the gradient descent algorithm
+    :type steps: int
     :return: The ideal parameters and the list of paramters through time
     :rtype: tuple[np.ndarray, np.ndarray]
     """
-    # TODO 1:
+    # TODO 1: Write the traditional gradient descent algorithm without matrix
+    # operations or numpy vectorization
     return np.zeros((1,))
 
 
-def stochastic_grad_descent():
+def stochastic_grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
+    """grad_descent: gradient descent algorithm on a hypothesis class.
+
+    This does not use the matrix operations from numpy, this function
+    uses the brute force calculations
+
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss_f: loss function that we will be optimizing on
+    :type loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param grad_loss_f: the gradient of the loss function we are optimizing
+    :type grad_loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param steps: number of steps to take in the gradient descent algorithm
+    :type steps: int
+    :return: The ideal parameters and the list of paramters through time
+    :rtype: tuple[np.ndarray, np.ndarray]
+    """
 
     # TODO 2
     return np.zeros((1,))
 
 
-def minibatch_grad_descent():
+def minibatch_grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
+    """grad_descent: gradient descent algorithm on a hypothesis class.
 
-    # TODO 3
+    This does not use the matrix operations from numpy, this function
+    uses the brute force calculations
+
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss_f: loss function that we will be optimizing on
+    :type loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param grad_loss_f: the gradient of the loss function we are optimizing
+    :type grad_loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param steps: number of steps to take in the gradient descent algorithm
+    :type steps: int
+    :return: The ideal parameters and the list of paramters through time
+    :rtype: tuple[np.ndarray, np.ndarray]
+    """
+
+    # TODO 3: Write the stochastic mini-batch gradient descent algorithm without 
+    # matrix operations or numpy vectorization
     return np.zeros((1,))
 
 
-def matrix_gd():
+def matrix_gd(h, grad_h, loss_f, grad_loss_f, x, y, steps, batch_size):
+    """grad_descent: gradient descent algorithm on a hypothesis class.
 
-    # TODO 4
+    This does not use the matrix operations from numpy, this function
+    uses the brute force calculations
+
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss_f: loss function that we will be optimizing on
+    :type loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param grad_loss_f: the gradient of the loss function we are optimizing
+    :type grad_loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param steps: number of steps to take in the gradient descent algorithm
+    :type steps: int
+    :param batch_size: number of elements in each training batch
+    :type batch_size: int
+    :return: The ideal parameters and the list of paramters through time
+    :rtype: tuple[np.ndarray, np.ndarray]
+    """
+
+    # TODO 4: Write the traditional gradient descent algorithm WITH matrix
+    # operations or numpy vectorization
     return np.zeros((1,))
 
 
-def matrix_sgd():
+def matrix_sgd(h, grad_h, loss_f, grad_loss_f, x, y, steps):
+    """grad_descent: gradient descent algorithm on a hypothesis class.
 
-    # TODO 5
+    This does not use the matrix operations from numpy, this function
+    uses the brute force calculations
+
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss_f: loss function that we will be optimizing on
+    :type loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param grad_loss_f: the gradient of the loss function we are optimizing
+    :type grad_loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param steps: number of steps to take in the gradient descent algorithm
+    :type steps: int
+    :return: The ideal parameters and the list of paramters through time
+    :rtype: tuple[np.ndarray, np.ndarray]
+    """
+
+    # TODO 5: Write the stochastic gradient descent algorithm WITH matrix
+    # operations or numpy vectorization
     return np.zeros((1,))
 
 
-def matrix_minibatch_gd():
+def matrix_minibatch_gd(h, grad_h, loss_f, grad_loss_f, x, y, steps, batch_size):
+    """matrix_minibatch_gd: Mini-Batch GD using numpy matrix operations
 
-    # TODO 6
+    Stochastic Mini-batch GD with batches of size batch_size using numpy
+    operations to speed up all of the operations
+
+    :param h: hypothesis function that models our data (x) using theta
+    :type h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param grad_h: function for the gradient of our hypothesis function
+    :type grad_h: typing.Callable[[np.ndarray, np.ndarray], np.ndarray]
+    :param loss_f: loss function that we will be optimizing on
+    :type loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param grad_loss_f: the gradient of the loss function we are optimizing
+    :type grad_loss_f: typing.Callable[
+        [
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        typing.Callable[[np.ndarray, np.ndarray], np.ndarray],
+        np.ndarray,
+        np.ndarray,
+        np.ndarray
+        ],
+        np.ndarray]
+    :param x: A matrix of samples and their respective features.
+    :type x: np.ndarray
+    :param y: The expected targets our model is attempting to match
+    :param y: np.ndarray
+    :param steps: number of steps to take in the gradient descent algorithm
+    :type steps: int
+    :param batch_size: number of elements in each training batch
+    :type batch_size: int
+    :return: The ideal parameters and the list of paramters through time
+    :rtype: tuple[np.ndarray, np.ndarray]
+    """
+
+    # TODO 6: Write the stochastic mini-batch gradient descent algorithm WITH 
+    # matrix operations or numpy vectorization
     return np.zeros((1,))
 
 
@@ -466,7 +615,7 @@ def matrix_minibatch_gd():
 # Sample tests that you can run to ensure the basics are working
 # ============================================================================
 
-def simple_linear():
+def save_linear_gif():
     """simple_linear: description."""
     x = np.arange(-3,4,0.1).reshape((-1,1))
     y = 2*np.arange(-3,4,0.1).reshape((-1,1))

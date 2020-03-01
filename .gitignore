@@ -11,6 +11,7 @@ pyproject.toml
 .darglint
 .flake8
 .pre-commit-config.yaml
+assignment1/examples/
 
 # C extensions
 *.so
