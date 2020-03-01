@@ -109,7 +109,8 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des,
     :return: None
     :rtype: None
     """
-    _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
+    steps = 500
+    _, thetas = grad_des(h, grad_h, loss, dloss, x, y, steps)
 
     fig, ax = plt.subplots()
     ax.set_xlim([x_support[0], x_support[1]])
@@ -123,7 +124,6 @@ def plot_grad_descent_1d(h, grad_h, loss, dloss, x, y, grad_des,
 
     potential_theta = np.linspace(x_support[0], x_support[1], 1000)#.reshape((-1,1))
     potential_loss = [loss(h, grad_h, potential_theta[j].reshape((-1,1)), x, y) for j in range(1000)]
-    steps = 50
 
     def init():
         line.set_data([], [])
@@ -192,18 +192,18 @@ def plot_linear_1d(h, grad_h, loss, dloss, x, y, grad_des, x_support, y_support)
     :rtype: None
     """
     import sys
-    _, thetas = grad_des(h, grad_h, loss, dloss, x, y)
+    steps = 500
+    _, thetas = grad_des(h, grad_h, loss, dloss, x, y, steps)
 
     fig, ax = plt.subplots()
-    ax.set_xlim([x_support[0], x_support[1]])
-    ax.set_ylim([y_support[0], y_support[1]])
+    ax.set_xlim([min(x) - 0.5, max(x) + 0.5])
+    ax.set_ylim([min(y) - 0.5, max(y) + 0.5])
     ax.set_xlabel("x")
     ax.set_ylabel("f(x)")
     plt.title("Gradient Descent in 1D")
     line, = ax.plot([], [])
     scat = ax.scatter(x.reshape((-1,)), y.reshape((-1,)), c="red")
     text = ax.text(x_support[0], y_support[0], "")
-    steps = 50
 
     def init():
         line.set_data([], [])
@@ -380,7 +380,20 @@ def grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
     """
     # TODO 1: Write the traditional gradient descent algorithm without matrix
     # operations or numpy vectorization
-    return np.zeros((1,))
+    #return np.zeros((1,))
+    if x.ndim == 1:
+        theta = np.random.random((1,1), ndim=2)
+    else:
+        theta = np.random.random((1,x.shape[1]))
+
+    thetas = [theta]
+    import sys; import time
+
+    for i in range(steps):
+        theta = theta - 0.001*(1/x.shape[0])*grad_loss_f(h, grad_h, theta, x, y)
+        thetas.append(theta)
+
+    return theta, np.array(thetas)
 
 
 def stochastic_grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
@@ -619,8 +632,8 @@ def save_linear_gif():
     """simple_linear: description."""
     x = np.arange(-3,4,0.1).reshape((-1,1))
     y = 2*np.arange(-3,4,0.1).reshape((-1,1))
-    x_support = np.array((-3,7))
-    y_support = np.array((-1,12.5))
+    x_support = np.array((0,4))
+    y_support = np.array((-0.1,200))
     plot_linear_1d(
         linear_h,
         linear_grad_h,
