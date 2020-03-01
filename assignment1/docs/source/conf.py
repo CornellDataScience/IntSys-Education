@@ -38,7 +38,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
-    "pallets_sphinx_themes",
+    # "pallets_sphinx_themes",
     "sphinx.ext.todo",
 ]
 
