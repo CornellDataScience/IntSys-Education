@@ -13,7 +13,7 @@
 import os
 import sys
 
-# from pallets_sphinx_themes import ProjectLink
+from pallets_sphinx_themes import ProjectLink
 
 
 sys.path.insert(0, os.path.abspath("../.."))
@@ -38,7 +38,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
-    # "pallets_sphinx_themes",
+    "pallets_sphinx_themes",
     "sphinx.ext.todo",
 ]
 
@@ -59,22 +59,22 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 # html_theme = 'alabaster'
-html_theme = "sphinx_rtd_theme"
-# html_theme = "flask"
-# html_theme_options = {"index_sidebar_logo": True}
-# html_context = {
-#     "project_links": [
-#         ProjectLink(
-#             "Source Code",
-#             "https://dev.azure.com/cornelldatascience/SnapBee/_git/pyfaktory",
-#         ),
-#         ProjectLink("CDS Team", "https://cornelldata.science"),
-#     ]
-# }
-# html_sidebars = {
-#     "index": ["project.html", "localtoc.html", "searchbox.html"],
-#     "**": ["localtoc.html", "relations.html", "searchbox.html"],
-# }
+# html_theme = "sphinx_rtd_theme"
+html_theme = "flask"
+html_theme_options = {"index_sidebar_logo": True}
+html_context = {
+    "project_links": [
+        ProjectLink(
+            "Source Code",
+            "https://dev.azure.com/cornelldatascience/SnapBee/_git/pyfaktory",
+        ),
+        ProjectLink("CDS Team", "https://cornelldata.science"),
+    ]
+}
+html_sidebars = {
+    "index": ["project.html", "localtoc.html", "searchbox.html"],
+    "**": ["localtoc.html", "relations.html", "searchbox.html"],
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
