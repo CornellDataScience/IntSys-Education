@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from data_loader import get_data_loaders
+from a2.data_loader import get_data_loaders
 
 class LinearRegressionModel(nn.Module):
   def __init__(self, num_param, loss_fn):
