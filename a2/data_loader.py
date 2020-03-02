@@ -11,13 +11,15 @@ class SimpleDataset(Dataset):
     :param path_to_csv: [description]
     :type path_to_csv: [type]
     """
-    def __init__(self, path_to_csv):
+    def __init__(self, path_to_csv, transform=None):
         ## TODO: Add code to read csv and load data. 
         ## You should store the data in a field.
         # Eg (on how to read .csv files):
         # with open('path/to/.csv', 'r') as f:
         #   lines = ...
         ## Look up how to read .csv files using Python. This is common for datasets in projects.
+
+        self.transform = transform
         pass
 
     def __len__(self):
@@ -39,11 +41,20 @@ class SimpleDataset(Dataset):
         ## TODO: This returns only ONE sample from the dataset, for a given index.
         ## The returned sample should be a tuple (x, y) where x is your input 
         ## vector and y is your label
-        ## Remember to convert the x and y into numpy arrays or torch tensors.
+        ## Before returning your sample, you should check if there is a transform
+        ## sepcified, and pply that transform to your sample
+        # Eg:
+        # if self.transform:
+        #   sample = self.transform(sample)
+        ## Remember to convert the x and y into torch tensors.
+
         pass
 
 
-def get_data_loaders(path_to_csv, train_val_test=[0.8, 0.2, 0.2], batch_size=32):
+def get_data_loaders(path_to_csv, 
+                     transform_fn=None,
+                     train_val_test=[0.8, 0.2, 0.2], 
+                     batch_size=32):
     """get_data_loaders [summary]
     
     [extended_summary]
@@ -58,7 +69,7 @@ def get_data_loaders(path_to_csv, train_val_test=[0.8, 0.2, 0.2], batch_size=32)
     :rtype: [type]
     """
     # First we create the dataset given the path to the .csv file
-    dataset = SimpleDataset(path_to_csv)
+    dataset = SimpleDataset(path_to_csv, transform=transform_fn)
 
     # Then, we create a list of indices for all samples in the dataset.
     dataset_size = len(dataset)

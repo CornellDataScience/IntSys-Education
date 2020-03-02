@@ -18,6 +18,7 @@ class LogisticRegressionModel(nn.Module):
     """
     def __init__(self, num_param, loss_fn):
         ## TODO 1: Set up network
+        super(LogisticRegressionModel, self).__init__()
         pass
 
     def forward(self, x):

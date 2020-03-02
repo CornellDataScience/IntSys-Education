@@ -16,6 +16,7 @@ class LinearRegressionModel(nn.Module):
     """
     def __init__(self, num_param, loss_fn):
         ## TODO 1: Set up network
+        super(LinearRegressionModel, self).__init__()
         pass
 
     def forward(self, x):
@@ -38,6 +39,15 @@ class LinearRegressionModel(nn.Module):
         """
         ## TODO 2: Implement the linear regression on sample x
         pass
+
+
+def data_transform(sample):
+
+  ## TODO: Define a transform on a given (x, y) sample. This can be used, for example
+  ## for changing the feature representation of your data so that Linear regression works
+  ## better.
+  x, y = sample
+  return sample ## You might want to change this
 
 
 def mse_loss(output, target):
@@ -98,7 +108,10 @@ if __name__ == "__main__":
     ## you think you should use Linear Regression. The syntax for doing this is something like:
     # Eg:
     # train_loader, val_loader, test_loader =\
-    #   get_data_loaders(path_to_csv, train_val_test=[YOUR TRAIN/VAL/TEST SPLIT], batch_size=YOUR BATCH SIZE)
+    #   get_data_loaders(path_to_csv, 
+    #                    transform_fn=data_transform  # Can also pass in None here
+    #                    train_val_test=[YOUR TRAIN/VAL/TEST SPLIT], 
+    #                    batch_size=YOUR BATCH SIZE)
 
 
     ## Now you will want to initialise your Linear Regression model, using something like
