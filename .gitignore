@@ -12,6 +12,7 @@ pyproject.toml
 .flake8
 .pre-commit-config.yaml
 assignment1/examples/
+assignment1/*.gif
 
 # C extensions
 *.so
