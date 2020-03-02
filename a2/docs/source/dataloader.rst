@@ -1,0 +1,23 @@
+.. role:: hidden
+    :class: hidden-section
+
+Data Loader Module
+============================
+
+Section 1
+-----------
+
+:hidden:`Class/Function 1`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: logistic_regression.LogisticRegressionModel
+  :members:
+
+
+Section 2
+---------------
+
+:hidden:`Class/Function 2`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: logistic_regression.logistic_loss
