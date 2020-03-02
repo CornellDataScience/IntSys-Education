@@ -4,20 +4,17 @@
 Data Loader Module
 ============================
 
-Section 1
------------
+Data Set Loaders
+-------------------
 
-:hidden:`Class/Function 1`
+:hidden:`SimpleDataset`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: logistic_regression.LogisticRegressionModel
+.. autoclass:: data_loader.SimpleDataset
   :members:
 
 
-Section 2
----------------
-
-:hidden:`Class/Function 2`
+:hidden:`get_data_loaders`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autofunction:: logistic_regression.logistic_loss
+.. autofunction:: data_loader.get_data_loaders

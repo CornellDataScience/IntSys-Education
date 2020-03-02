@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import numpy as np
-from a2.data_loader import get_data_loaders
+from data_loader import get_data_loaders
 import typing
 
 class LogisticRegressionModel(nn.Module):

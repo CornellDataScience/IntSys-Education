@@ -4,20 +4,10 @@
 Plotting Module
 ============================
 
-Section 1
------------
+Logistic Regression Plotting
+------------------------------
 
-:hidden:`Class/Function 1`
+:hidden:`plot_logistic_boundary`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: logistic_regression.LogisticRegressionModel
-  :members:
-
-
-Section 2
----------------
-
-:hidden:`Class/Function 2`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autofunction:: logistic_regression.logistic_loss
+.. autofunction:: plotting.plot_logistic_boundary

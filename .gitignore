@@ -13,6 +13,7 @@ pyproject.toml
 .pre-commit-config.yaml
 assignment1/examples/
 assignment1/*.gif
+aws_config.cfg
 
 # C extensions
 *.so
