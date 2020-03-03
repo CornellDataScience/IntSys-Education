@@ -13,10 +13,8 @@ class LogisticRegressionModel(nn.Module):
 
     :param num_param: The number of parameters that need to be initialized.
     :type num_param: int
-    :param loss_fn: The loss function that is used to calculate "cost"
-    :type loss_fn: typing.Callable[[torch.Tensor, torch.Tensor],torch.Tensor]
     """
-    def __init__(self, num_param, loss_fn):
+    def __init__(self, num_param):
         ## TODO 1: Set up network
         super(LogisticRegressionModel, self).__init__()
         pass
