@@ -33,7 +33,7 @@ class LogisticRegressionModel(nn.Module):
     
         :param x: Input array of shape (n_samples, n_features) which we want to
             evaluate on
-        :type x: typing.Union[np.ndarray, torch.Tensor]
+        :type x: typing.Union[torch.Tensor]
         :return: The predictions on x
         :rtype: torch.Tensor
         """
@@ -99,7 +99,7 @@ def logistic_loss(output, target):
     :param output: The output of the model or our predictions
     :type output: torch.Tensor
     :param target: The expected output or our labels
-    :type target: typing.Union[torch.Tensor, np.ndarray]
+    :type target: typing.Union[torch.Tensor]
     :return: torch.Tensor
     :rtype: torch.Tensor
     """
@@ -117,7 +117,7 @@ def cross_entropy_loss(output, target):
     :param output: The output of the model or our predictions
     :type output: torch.Tensor
     :param target: The expected output or our labels
-    :type target: typing.Union[torch.Tensor, np.ndarray]
+    :type target: typing.Union[torch.Tensor]
     :return: torch.Tensor
     :rtype: torch.Tensor
     """

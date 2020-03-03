@@ -66,7 +66,7 @@ def mse_loss(output, target):
     :param output: The output of the model or our predictions
     :type output: torch.Tensor
     :param target: The expected output or our labels
-    :type target: typing.Union[torch.Tensor, np.ndarray]
+    :type target: typing.Union[torch.Tensor]
     :return: torch.Tensor
     :rtype: torch.Tensor
     """
@@ -92,7 +92,7 @@ def mae_loss(output, target):
     :param output: The output of the model or our predictions
     :type output: torch.Tensor
     :param target: The expected output or our labels
-    :type target: typing.Union[torch.Tensor, np.ndarray]
+    :type target: typing.Union[torch.Tensor]
     :return: torch.Tensor
     :rtype: torch.Tensor
     """
