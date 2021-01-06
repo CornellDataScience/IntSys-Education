@@ -380,20 +380,7 @@ def grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
     """
     # TODO 1: Write the traditional gradient descent algorithm without matrix
     # operations or numpy vectorization
-    #return np.zeros((1,))
-    if x.ndim == 1:
-        theta = np.random.random((1,1), ndim=2)
-    else:
-        theta = np.random.random((1,x.shape[1]))
-
-    thetas = [theta]
-    import sys; import time
-
-    for i in range(steps):
-        theta = theta - 0.001*(1/x.shape[0])*grad_loss_f(h, grad_h, theta, x, y)
-        thetas.append(theta)
-
-    return theta, np.array(thetas)
+    # return np.zeros((1,))
 
 
 def stochastic_grad_descent(h, grad_h, loss_f, grad_loss_f, x, y, steps):
