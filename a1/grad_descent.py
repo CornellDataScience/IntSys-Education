@@ -331,7 +331,7 @@ def grad_l2_loss(h, grad_h, theta, x, y):
     :return: The l2 loss value
     :rtype: float
     """
-    return (np.sum((h(theta, x) - y) * grad_h(theta, x)))
+    return np.sum((h(theta, x) - y) * grad_h(theta, x))
 
 
 # ============================================================================
@@ -617,10 +617,10 @@ def matrix_minibatch_gd(h, grad_h, loss_f, grad_loss_f, x, y, steps, batch_size)
 
 def save_linear_gif():
     """simple_linear: description."""
-    x = np.arange(-3,4,0.1).reshape((-1,1))
-    y = 2*np.arange(-3,4,0.1).reshape((-1,1))
-    x_support = np.array((0,4))
-    y_support = np.array((-0.1,200))
+    x = np.arange(-3, 4, 0.1).reshape((-1, 1))
+    y = 2*np.arange(-3, 4, 0.1).reshape((-1, 1))
+    x_support = np.array((0, 4))
+    y_support = np.array((-0.1, 200))
     plot_linear_1d(
         linear_h,
         linear_grad_h,
@@ -646,9 +646,8 @@ def save_linear_gif():
 
 
 def test_gd(grad_des_f):
-    
-    x = np.arange(-4, 5, 0.1) 
+    pass
 
 
 if __name__ == "__main__":
-    pass
+    save_linear_gif()
