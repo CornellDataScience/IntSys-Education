@@ -6,6 +6,7 @@ import numpy as np
 from data_loader import get_data_loaders
 import typing
 
+
 class LogisticRegressionModel(nn.Module):
     """LogisticRegressionModel is the logistic regression classifier.
 
@@ -16,7 +17,7 @@ class LogisticRegressionModel(nn.Module):
     """
     def __init__(self, num_param):
         ## TODO 1: Set up network
-        super(LogisticRegressionModel, self).__init__()
+        super().__init__()
         pass
 
     def forward(self, x):
@@ -55,6 +56,7 @@ class MultinomialRegressionModel(nn.Module):
     .. seealso:: :class:`LogisticRegressionModel`
     """
     def __init__(self, num_param, loss_fn):
+        super().__init__()
         ## TODO 3: Set up network
         # NOTE: THIS IS A BONUS AND IS NOT EXPECTED FOR YOU TO BE ABLE TO DO
         pass

@@ -4,6 +4,7 @@ import torch.optim as optim
 import numpy as np
 from data_loader import get_data_loaders
 
+
 class LinearRegressionModel(nn.Module):
     """LinearRegressionModel is the linear regression regressor.
 
@@ -12,9 +13,10 @@ class LinearRegressionModel(nn.Module):
     :param num_param: The number of parameters that need to be initialized.
     :type num_param: int
     """
+
     def __init__(self, num_param):
         ## TODO 1: Set up network
-        super(LinearRegressionModel, self).__init__()
+        super().__init__()
         pass
 
     def forward(self, x):
@@ -40,12 +42,11 @@ class LinearRegressionModel(nn.Module):
 
 
 def data_transform(sample):
-
-  ## TODO: Define a transform on a given (x, y) sample. This can be used, for example
-  ## for changing the feature representation of your data so that Linear regression works
-  ## better.
-  x, y = sample
-  return sample ## You might want to change this
+    ## TODO: Define a transform on a given (x, y) sample. This can be used, for example
+    ## for changing the feature representation of your data so that Linear regression works
+    ## better.
+    x, y = sample
+    return sample  ## You might want to change this
 
 
 def mse_loss(output, target):
@@ -73,6 +74,7 @@ def mse_loss(output, target):
     ## TODO 3: Implement Mean-Squared Error loss. 
     # Use PyTorch operations to return a PyTorch tensor
     pass
+
 
 def mae_loss(output, target):
     """Creates a criterion that measures the mean absolute error (l1 loss)
@@ -111,16 +113,13 @@ if __name__ == "__main__":
     #                    train_val_test=[YOUR TRAIN/VAL/TEST SPLIT], 
     #                    batch_size=YOUR BATCH SIZE)
 
-
     ## Now you will want to initialise your Linear Regression model, using something like
     # Eg:
     # model = LinearRegressionModel(...)
 
-
     ## Then, you will want to define your optimizer (the thing that updates your model weights)
     # Eg:
     # optimizer = optim.[one of PyTorch's optimizers](model.parameters(), lr=0.01)
-
 
     ## Now, you can start your training loop:
     # Eg:

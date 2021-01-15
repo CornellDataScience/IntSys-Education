@@ -57,8 +57,8 @@ def plot_binary_logistic_boundary(logreg, X, y, xlim, ylim):
 def plot_linear_1D(linreg, X, y, xlim, ylim):
     """Plots the best plane given by the trained linear regressor
     
-    :param logreg: Logistic Regrssor model
-    :type logreg: linear_regression.LinearRegressionModel
+    :param linreg: Logistic Regrssor model
+    :type linreg: linear_regression.LinearRegressionModel
     :param X: The features and samples used to train
     :type X: np.ndarray
     :param y: The labels for the regression task
@@ -69,4 +69,3 @@ def plot_linear_1D(linreg, X, y, xlim, ylim):
     :type ylim: typing.Tuple[int, int]
     """
     pass
-    
