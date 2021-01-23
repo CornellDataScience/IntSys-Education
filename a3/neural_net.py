@@ -64,6 +64,6 @@ class SimpleConvNetModel(nn.Module):
 
 
 if __name__ == "__main__":
-  ## You can use code similar to that used in the LinearRegression file to 
-  # load and train the model.
-  pass
+    ## You can use code similar to that used in the LinearRegression file to
+    # load and train the model.
+    pass

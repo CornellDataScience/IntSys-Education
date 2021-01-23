@@ -71,7 +71,7 @@ def get_data_loaders(path_to_pkl,
     :rtype: [type]
     """
     # First we create the dataset given the path to the .csv file
-    dataset = SimpleDataset(path_to_csv, path_to_labels)
+    dataset = SimpleDataset(path_to_pkl, path_to_labels)
 
     # Then, we create a list of indices for all samples in the dataset.
     dataset_size = len(dataset)
