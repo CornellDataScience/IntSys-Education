@@ -10,7 +10,7 @@ def load_pickle_file(path_to_file):
     ## Look up: https://docs.python.org/3/library/pickle.html
     ## The code should look something like this:
     # with open(path_to_file, 'rb') as f:
-    #   obj = pickle.... 
+    #   obj = pickle....
     ## We will let you figure out which pickle operation to use
     pass
 
